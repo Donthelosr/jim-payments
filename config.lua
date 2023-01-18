@@ -13,11 +13,11 @@ Config = {
 	-- Default Job Payment Systems --
 	---------------------------------
 
-	RenewedBanking = false, -- Enable if using Renewed-Banking false if using QB-Management
+	RenewedBanking = true, -- Enable if using Renewed-Banking false if using QB-Management
 
-	ApGov = false, -- Toggle support for AP-Goverment Tax
+	ApGov = true, -- Toggle support for AP-Goverment Tax
 
-	List = true, -- "true" to use nearby player list feature in the cash registers, "false" for manual id entry
+	List = false, -- "true" to use nearby player list feature in the cash registers, "false" for manual id entry
 	PaymentRadius = 15, -- This is how far the playerlist will check for nearby players (based on the person charging)
 
 	Peds = true, -- "true" to enable peds spawning in banks
@@ -49,29 +49,42 @@ Config = {
 	CashInLocation = vector4(252.23, 223.11, 106.29, 159.2), -- Default Third Window along in Pacific Bank
 
 	TicketSystem = true, -- Enable this if you want to use the ticket system false
-	TicketSystemAll = true, -- Enable this to give tickets to all workers clocked in
+	TicketSystemAll = false, -- Enable this to give tickets to all workers clocked in
 
 	Commission = true, -- Set this to true to enable Commissions and give the person charging a percentage of the total
 	CommissionAll = false, -- Set this to true to give commission to workers clocked in
 	CommissionDouble = false, -- Set this to true if you want the person charging to get double Commission
-	CommissionLimit = false,	-- If true, this limits the Commission to only be given if over the "MinAmountForTicket".
+	CommissionLimit = true,	-- If true, this limits the Commission to only be given if over the "MinAmountForTicket".
 								-- If false, Commission will be given for any amount
 
 	-- MinAmountforTicket should be your cheapest item
 	-- PayPerTicket should never be higher than MinAmountforTicket
 	-- Commission is a percentage eg "0.10" becomes 10%
 	Jobs = {
-		['beanmachine'] = { MinAmountforTicket = 50, PayPerTicket = 50, Commission = 0.10, },
-		['bakery'] = { MinAmountforTicket = 50, PayPerTicket = 50, Commission = 0.10, },
-		['burgershot'] = { MinAmountforTicket = 50, PayPerTicket = 50 , Commission = 0.10, },
-		['catcafe'] = { MinAmountforTicket = 50, PayPerTicket = 50, Commission = 0.10, },
-		['henhouse'] = { MinAmountforTicket = 50, PayPerTicket = 50, Commission = 0.10, },
-		['pizzathis'] = { MinAmountforTicket = 50, PayPerTicket = 50, Commission = 0.10, },
-		['popsdiner'] = { MinAmountforTicket = 50, PayPerTicket = 50, Commission = 0.10, },
-		['tequilala'] = { MinAmountforTicket = 50, PayPerTicket = 50, Commission = 0.10, },
+		--['beanmachine'] = { MinAmountforTicket = 50, PayPerTicket = 50, Commission = 0.10, },
+		--['bakery'] = { MinAmountforTicket = 50, PayPerTicket = 50, Commission = 0.10, },
+	--	--['burgershot'] = { MinAmountforTicket = 50, PayPerTicket = 50 , Commission = 0.10, },
+--['catcafe'] = { MinAmountforTicket = 50, PayPerTicket = 50, Commission = 0.10, },
+	--	['henhouse'] = { MinAmountforTicket = 50, PayPerTicket = 50, Commission = 0.10, },
+	--	['pizzathis'] = { MinAmountforTicket = 50, PayPerTicket = 50, Commission = 0.10, },
+	--	['popsdiner'] = { MinAmountforTicket = 50, PayPerTicket = 50, Commission = 0.10, },
+	--	['tequilala'] = { MinAmountforTicket = 50, PayPerTicket = 50, Commission = 0.10, },
 		['vanilla'] = { MinAmountforTicket = 50, PayPerTicket = 50, Commission = 0.10, },
+		['cardealer'] = { MinAmountforTicket = 50, PayPerTicket = 50, Commission = 0.10, },
 		['mechanic'] = { MinAmountforTicket = 1000, PayPerTicket = 500, Commission = 0.10, },
 		['lostmc'] = { MinAmountforTicket = 50, PayPerTicket = 50, Commission = 0.10, gang = true, }, -- Example of a gang being supported
+		['catcafe'] = { MinAmountforTicket = 50, PayPerTicket = 50, Commission = 0.10, },
+		['realestate'] = { MinAmountforTicket = 50, PayPerTicket = 50, Commission = 0.10, },
+		--['catcafe'] = { MinAmountforTicket = 50, PayPerTicket = 50, Commission = 0.10, },
+		-- ['henhouse'] = { MinAmountforTicket = 50, PayPerTicket = 50, Commission = 0.10, },
+		-- ['pizzathis'] = { MinAmountforTicket = 50, PayPerTicket = 50, Commission = 0.10, },
+		-- ['popsdiner'] = { MinAmountforTicket = 50, PayPerTicket = 50, Commission = 0.10, },
+		['bahama'] = { MinAmountforTicket = 50, PayPerTicket = 50, Commission = 0.10, },
+		['vanilla'] = { MinAmountforTicket = 50, PayPerTicket = 50, Commission = 0.10, },
+		['mechanic'] = { MinAmountforTicket = 50, PayPerTicket = 50, Commission = 0.10, },
+		['whitewidow'] = { MinAmountforTicket = 50, PayPerTicket = 50, Commission = 0.10, },
+		['customs'] = { MinAmountforTicket = 50, PayPerTicket = 50, Commission = 0.10, },
+		['studio'] = { MinAmountforTicket = 50, PayPerTicket = 50, Commission = 0.10, },
 	},
 
 	------------------------------
@@ -80,16 +93,28 @@ Config = {
 	-- This adds the ability to add multiple locations for each job
 	-- Basically adding ready made locations, all you need to a vector4 and to confrim if you need a new prop in that location
     CustomCashRegisters = {
-
+		["bahama"] = { -- Player job role restriction
+		{ coords = vector4(-1376.29, -603.36, 30.21, 148.08), prop = false, }, -- vector4 to place the till and the way it faces
+	  	},
+	
+		["mechanic"] = { -- Player job role restriction
+	  { coords = vector4(147.58, -3014.2, 6.94, 30.04), prop = true, }, -- vector4 to place the till and the way it faces
+		},
+		["customs"] = { -- Player job role restriction
+	  	{ coords = vector4(874.97, -2100.91, 30.49, 175.0), prop = false, }, -- vector4 to place the till and the way it faces
+		},
+		["studio"] = { -- Player job role restriction
+	  	{ coords = vector4(481.46, -97.38, 63.1, 150.0), prop = false, }, -- vector4 to place the till and the way it faces
+		},
 	},
 
 	-- The /polcharge command requires specific jobs to be set
 	-- No tickets for these, it's just commission (0.25 = 25%)
 	FineJobs = {
-		['police'] = { Commission = 0.25, },
+		['police'] = { Commission = 0.1, },
 		['ambulance'] = { Commission = 0.25, },
 	},
-	FineJobConfirmation = false, --"true" makes it so fines need confirmation, "false" skips this ands just removes the money
+	FineJobConfirmation = true, --"true" makes it so fines need confirmation, "false" skips this ands just removes the money
 	FineJobList = true, -- "true" to use nearby player list feature in the cash registers, "false" for manual id entry
 
 	---------------------

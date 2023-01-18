@@ -248,22 +248,45 @@ QBCore.Functions.CreateCallback('jim-payments:ATM:Find', function(source, cb)
 		gsociety = gsociety})
 end)
 
-QBCore.Commands.Add("cashgive", Loc[Config.Lan].command["pay_user"], {}, false, function(source) TriggerClientEvent("jim-payments:client:ATM:give", source) end)
+-- QBCore.Commands.Add("cashgive", Loc[Config.Lan].command["pay_user"], {}, false, function(source) TriggerClientEvent("jim-payments:client:ATM:give", source) end)
 
-RegisterServerEvent("jim-payments:server:ATM:give", function(citizen, price)
-    local Player = QBCore.Functions.GetPlayer(source)
-    local Reciever = QBCore.Functions.GetPlayer(tonumber(citizen))
-    local amount = tonumber(price)
-	local balance = Player.Functions.GetMoney("cash")
+-- RegisterServerEvent("jim-payments:server:ATM:give", function(citizen, price)
+--     local Player = QBCore.Functions.GetPlayer(source)
+--     local Reciever = QBCore.Functions.GetPlayer(tonumber(citizen))
+--     local amount = tonumber(price)
+-- 	local balance = Player.Functions.GetMoney("cash")
 
-	if amount and amount > 0 then
-		if balance >= amount then
-			Player.Functions.RemoveMoney('cash', amount)
-			triggerNotify(nil, Loc[Config.Lan].success["you_gave"]..Reciever.PlayerData.charinfo.firstname.." $"..cv(amount), "success", source)
-			Reciever.Functions.AddMoney('cash', amount)
-			triggerNotify(nil, Loc[Config.Lan].success["you_got"]..cv(amount)..Loc[Config.Lan].success["from"]..Player.PlayerData.charinfo.firstname, "success", tonumber(citizen))
-		elseif balance < amount then
-			triggerNotify(nil, Loc[Config.Lan].error["not_enough"], "error", source)
-		end
-	else triggerNotify(nil, Loc[Config.Lan].error["zero"], 'error', source) end
+-- 	if amount and amount > 0 then
+-- 		if balance >= amount then
+-- 			Player.Functions.RemoveMoney('cash', amount)
+-- 			triggerNotify(nil, Loc[Config.Lan].success["you_gave"]..Reciever.PlayerData.charinfo.firstname.." $"..cv(amount), "success", source)
+-- 			Reciever.Functions.AddMoney('cash', amount)
+-- 			triggerNotify(nil, Loc[Config.Lan].success["you_got"]..cv(amount)..Loc[Config.Lan].success["from"]..Player.PlayerData.charinfo.firstname, "success", tonumber(citizen))
+-- 		elseif balance < amount then
+-- 			triggerNotify(nil, Loc[Config.Lan].error["not_enough"], "error", source)
+-- 		end
+-- 	else triggerNotify(nil, Loc[Config.Lan].error["zero"], 'error', source) end
+-- end)
+
+
+QBCore.Commands.Add("cashgive", "Give cash!", {{name = "id", help = "Player ID"}, {name = "amount", help = "Amount"}}, true, function(source, args)
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    if Player.Functions.GetMoney('cash') >= tonumber(args[2]) then
+        if args[1] ~= nil and args[2] ~= 0 then
+            local tPlayer = QBCore.Functions.GetPlayer(tonumber(args[1]))
+            if not tPlayer then return end
+				if tPlayer ~= source then
+					print(source)
+            Player.Functions.RemoveMoney('cash',tonumber(args[2]))
+            tPlayer.Functions.AddMoney('cash',tonumber(args[2]))
+            TriggerClientEvent('QBCore:Notify', tPlayer.PlayerData.source, "Cash Recieved "..tonumber(args[2]), "success")
+            TriggerClientEvent('QBCore:Notify', src, "Cash Gave "..tonumber(args[2]), "success")
+				end
+        else
+            TriggerClientEvent('QBCore:Notify', src, "Player ID can't be nil and amount should be greater than 0", "error")
+        end
+    else
+        TriggerClientEvent('QBCore:Notify', src, "Not Enough Cash!", "error")
+    end
 end)
